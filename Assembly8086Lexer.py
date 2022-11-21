@@ -28,22 +28,23 @@ registers = {
 }
 
 reserved = {
-    'MOV': 'MOV',
-    'ADD': 'ADD',
-    'SEGMENT': 'SEGMENT_START',
-    'INT': 'INT',
-    'ENDS': 'SEGMENT_ENDS',
-    'END': 'END_LABEL',
-    'DB': 'DB',
-    'LOOPNE': 'LOOPNE',
-    'LOOP': 'LOOP',
-    'LEA': 'LEA',
-    'SHL': 'SHL',
-    'CMP': 'CMP',
-    'SHR': 'SHR',
-    'INC': 'INC',
-    'DUP': 'DUP'
-} | registers
+               'MOV': 'MOV',
+               'ADD': 'ADD',
+               'SEGMENT': 'SEGMENT_START',
+               'INT': 'INT',
+               'ENDS': 'SEGMENT_ENDS',
+               'END': 'END_LABEL',
+               'DB': 'DB',
+               'LOOPNE': 'LOOPNE',
+               'LOOP': 'LOOP',
+               'LEA': 'LEA',
+               'SHL': 'SHL',
+               'CMP': 'CMP',
+               'SHR': 'SHR',
+               'INC': 'INC',
+               'DUP': 'DUP',
+               'RET': 'RET'
+           } | registers
 
 tokens = [
              'SUB',
@@ -65,7 +66,6 @@ tokens = [
              'STRING',
              'LPAREN',
              'RPAREN'
-
          ] + list(reserved.values())
 
 t_DQUOTE = r'"'
@@ -85,9 +85,15 @@ t_OCTALNUMBER = r'(0[qQoO][0-7]+)|([0-7]+[qQoO])'
 t_BINARYNUMBER = r'([01]+[bByY])|(0[bByY][01]+)'
 
 
+def t_RET(t):
+    r'(?i)RET'
+    return t
+
+
 def t_DUP(t):
     r'(?i)DUP'
     return
+
 
 def t_STRING(t):
     r'(".+")|(\'.+\')'
@@ -155,7 +161,6 @@ def t_ignore_TITLE(t):
 
 def t_COMMENT(t):
     r';.*'
-
 
 
 def t_ID(t):
